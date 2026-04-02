@@ -236,6 +236,7 @@ const Framework = ({ navigate, currentPage }) => (
 const Numbers = ({ navigate, currentPage }) => {
   const [revealed, setRevealed] = useState(false);
   const [roi, setRoi] = useState(0);
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   useEffect(() => {
     if (revealed) {
@@ -272,16 +273,26 @@ const Numbers = ({ navigate, currentPage }) => {
 
       <div className={`hidden-numbers ${revealed ? 'revealed' : ''}`}>
         
-        {/* New Breakdown Section */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '24px', marginBottom: '32px', border: '1px solid var(--border)' }}>
-          <h4 style={{ marginBottom: '16px', color: 'var(--accent)' }}>Mathematical Breakdown (How we got here)</h4>
-          <ul style={{ listStyle: 'none', fontSize: '14px', color: 'var(--text-muted)' }}>
-            <li style={{ marginBottom: '8px' }}><strong>• Base Goal:</strong> 1,000 Total APDs (iGV: 420, oGV: 330, iGT: 90, oGT: 80, IG: 80)</li>
-            <li style={{ marginBottom: '8px' }}><strong>• Gross Revenue Calculation:</strong> Each product target multiplied by its average admin fee (e.g., 420 iGV * 72k; 330 oGV * 55k). Total = <strong>69.03M LKR</strong>.</li>
-            <li style={{ marginBottom: '8px' }}><strong>• National Investment Budget:</strong> Ops setup, PR Marketing (25%), Hackathon rewards, BD tools total an upfront <strong>23.6M LKR</strong> cap.</li>
-            <li style={{ marginBottom: '8px' }}><strong>• Max Discount Exposure:</strong> Assuming ~20% of all EPs use a discount at an average 22% depth, we lose ~<strong>3.6M LKR</strong> in potential revenue.</li>
-            <li><strong>• Net Profit Calculation:</strong> (Gross Rev 69M - Exposure 3.6M) = Net Rev 65.4M. Subtract 23.6M Investment = <strong>41.8M LKR Net Surplus</strong>.</li>
-          </ul>
+        {/* Toggleable Breakdown Section */}
+        <div 
+          onClick={() => setShowBreakdown(!showBreakdown)}
+          className="card" 
+          style={{ cursor: 'pointer', background: showBreakdown ? 'var(--bg-secondary)' : 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '24px', marginBottom: '32px', border: '1px solid var(--border)', transition: 'all 0.3s' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h4 style={{ margin: 0, color: 'var(--accent)', fontSize: '18px' }}>Mathematical Breakdown (How we got here)</h4>
+            <span style={{ fontSize: '24px', color: 'var(--text-muted)' }}>{showBreakdown ? '−' : '+'}</span>
+          </div>
+          
+          {showBreakdown && (
+            <ul style={{ listStyle: 'none', fontSize: '14px', color: 'var(--text-muted)', marginTop: '20px', animation: 'fadeIn 0.3s ease' }}>
+              <li style={{ marginBottom: '12px' }}><strong>• Base Goal:</strong> 1,000 Total APDs (iGV: 420, oGV: 330, iGT: 90, oGT: 80, IG: 80)</li>
+              <li style={{ marginBottom: '12px' }}><strong>• Gross Revenue Calculation:</strong> Each product target multiplied by its average admin fee (e.g., 420 iGV * 72k; 330 oGV * 55k). Total = <strong>69.03M LKR</strong>.</li>
+              <li style={{ marginBottom: '12px' }}><strong>• National Investment Budget:</strong> Ops setup, PR Marketing (25%), Hackathon rewards, BD tools total an upfront <strong>23.6M LKR</strong> cap.</li>
+              <li style={{ marginBottom: '12px' }}><strong>• Max Discount Exposure:</strong> Assuming ~20% of all EPs use a discount at an average 22% depth, we lose ~<strong>3.6M LKR</strong> in potential revenue.</li>
+              <li><strong>• Net Profit Calculation:</strong> (Gross Rev 69.03M - Exposure 3.6M) = Net Rev 65.43M. Subtract 23.6M Investment = <strong style={{color:'#fff'}}>41.83M LKR Net Surplus</strong>.</li>
+            </ul>
+          )}
         </div>
 
         <div className="grid-3" style={{ marginBottom: '24px' }}>
